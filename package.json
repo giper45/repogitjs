@@ -1,0 +1,43 @@
+{
+  "name": "repogitjs",
+  "version": "1.0.0",
+  "description": "A javascript api and bootstrap interface to manage github repositories with basic operations (commit, pull, push, ...) inside a root directories defined by user",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/giper45/repogitjs.git"
+  },
+  "keywords": [
+    "git",
+    "repogit",
+    "managment_git",
+    "repository_git",
+    "git_helpers"
+  ],
+  "author": "Gaetano Perrone",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/giper45/repogitjs/issues"
+  },
+  "homepage": "https://github.com/giper45/repogitjs#readme",
+  "dependencies": {
+    "angular-ui-notification": "^0.3.6",
+    "app-root-path": "^2.0.1",
+    "async": "^2.3.0",
+    "body-parser": "^1.17.1",
+    "express": "^4.15.2",
+    "homedir": "^0.6.0",
+    "method-override": "^2.3.8",
+    "nodegit": "^0.18.0",
+    "path-exists": "^3.0.0",
+    "underscore": "^1.8.3",
+    "walker": "^1.0.7"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}

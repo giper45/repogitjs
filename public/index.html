@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en"> 
+<head>
+  <title>Repogit interface</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-animate.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.6.1/angular-sanitize.js"></script>
+	<script src="http://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-2.5.0.js"></script>
+
+  	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+  	<link href="assets/css/angular-ui-notification.min.css" rel="stylesheet">
+
+
+	<script src="controllers/repogit_ctrl.js"></script>
+	<script src="assets/js/angular-ui-notification.min.js"></script> 
+    <!-- angular services -->
+    <!-- <script src="lib/services.js"></script> -->
+    <!-- angular controllers -->
+    <!-- <script src="lib/controllers.js"></script> -->
+
+<script>
+	//ANGULAR COMPONENT REGISTRATION 
+	angular.module("myApp", ['ngAnimate', 'ngSanitize', 'ui.bootstrap','ui-notification' ] )
+	.controller("repogitCtrl", repogit_ctrl) 
+	 .config(function(NotificationProvider) {
+		NotificationProvider.setOptions({
+		    delay: 4000,
+		    startTop: 20,
+		    startRight: 10,
+		    verticalSpacing: 20,
+		    horizontalSpacing: 20,
+		    positionX: 'center',
+		    positionY: 'bottom'
+		});
+	    });
+
+</script>
+
+
+
+</head>
+<body ng-app="myApp">
+ <div class="container" ng-controller="repogitCtrl">
+  <h1 class="text-center" >Root dir : {{rootDir}}  </h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th class="text-center">Name repo</th>
+        <th class="text-center">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+<tr ng-repeat="r in repos">
+        <td class="text-center">{{r}}</td>
+        <td>
+		<div class="text-center">
+		<button class="btn btn-default"> <span class="glyphicon glyphicon-arrow-down"> </span>  Pull </button>
+
+		</div>
+	</td>
+        
+      </tr>
+
+<!--<tr>
+        <td class="text-center">To modify</td>
+        <td>
+		<div class="text-center">
+		<button class="btn btn-default">  <span class="glyphicon glyphicon-arrow-down"> </span>  Pull</button>
+		<button class="btn btn-default"> <span class="glyphicon glyphicon-arrow-up"> </span>  Push</button>
+
+		</div>
+	</td>
+</tr>
+-->
+
+    </tbody>
+  </table>
+
+<hr>
+<h3> New repo : </h3>
+
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="githuburl">Git Url:</label>
+    <div class="col-sm-10">
+    <input type="githuburl" class="form-control" ng-model="giturl">
+    </div>
+  </div>
+<div class="form-group">
+
+    <label class="control-label col-sm-2" for="namerepo">Name repo</label>
+    <div class="col-sm-10">
+    <input type="namerepo" class="form-control" ng-model="namerepo">
+    </div>
+ </div>
+  <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" ng-click="loadRepo()" class="btn btn-default">Submit</button>
+    </div>
+  </div>
+</form>
+
+</div>
+
+</body> 
+
+
+</body>
+</html>
+
+
