@@ -5,13 +5,32 @@ var repogit_ctrl = function($scope, $http, $log, Notification) {
 	$scope.giturl = ''
 	$scope.repos = []
 
+	$scope.authRequired = false
+	$scope.username = ""
+	$scope.password = ""
+
 
 	$log.log("in repogit")
 	init() 
 
+	function logError(errorResponse) {
+			Notification('Error : '+errorResponse.data.message, "error")
+	}	
+
+
+	//Clone repo
 	$scope.loadRepo = function() {
 		//TODO check values
-		$http.post("/repogit/v1/repos/"+$scope.namerepo, {giturl:$scope.giturl})
+		var urlClone = "/repogit/v1/repos/"+$scope.namerepo
+		var bodyRequest = {
+					giturl:$scope.giturl, 
+					authRequired : $scope.authRequired,
+					username : $scope.username,
+					password : $scope.password
+				}
+			
+
+		$http.post(urlClone, bodyRequest) 
 			.then(
 			function successCallback(response) {
 				console.log("success clone")
@@ -21,6 +40,7 @@ var repogit_ctrl = function($scope, $http, $log, Notification) {
 			function errorCallback(errorResponse) {
 			    // called asynchronously if an error occurs
 			    // or server returns response with an error status.
+				console.log("error clone")
 				logError(errorResponse)
 			  });
 
@@ -52,9 +72,6 @@ var repogit_ctrl = function($scope, $http, $log, Notification) {
 		})
 
 
-	function logError(errorResponse) {
-			Notification('Error : '+errorResponse.data.message, "error")
-	}	
 
 	}
 

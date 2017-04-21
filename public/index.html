@@ -82,15 +82,15 @@
     </tbody>
   </table>
 
+<h3 class="text-center"> Add remote repo  </h3>
 <hr>
-<h3> New repo : </h3>
 
 
 <form class="form-horizontal">
   <div class="form-group">
     <label class="control-label col-sm-2" for="githuburl">Git Url:</label>
     <div class="col-sm-10">
-    <input type="githuburl" class="form-control" ng-model="giturl">
+    <input type="text" class="form-control" ng-model="giturl">
     </div>
   </div>
 <div class="form-group">
@@ -100,9 +100,31 @@
     <input type="namerepo" class="form-control" ng-model="namerepo">
     </div>
  </div>
+  <div class="checkbox form-group">
+	  <label class="control-label col-sm-offset-7 col-sm-2"><input type="checkbox" ng-model="authRequired">Auth Required</label>
+</div>
+<br>
+<div ng-show="authRequired">
+<div class="form-group">
+    <label class="control-label col-sm-2" for="username">Username:</label>
+    <div class="col-sm-10">
+    <input type="text" class="form-control" ng-model="username">
+    </div>
+</div>
+
+<div class="form-group">
+    <label class="control-label col-sm-2" for="password">Password:</label>
+    <div class="col-sm-10">
+    <input type="password" class="form-control" ng-model="password">
+    </div>
+  </div>
+
+</div>
+
+
   <div class="form-group"> 
     <div class="col-sm-offset-2 col-sm-10">
-      <button type="submit" ng-click="loadRepo()" class="btn btn-default">Submit</button>
+      <button type="submit" ng-click="loadRepo()" class="btn btn-default">Clone</button>
     </div>
   </div>
 </form>

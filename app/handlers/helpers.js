@@ -93,9 +93,11 @@ exports.paramError = function(nameParam) {
 	return exports.error("No param "+nameParam+ " in url", 
 			"Expected "+nameParam+" in url" 
 		  	    )
+}
+exports.authRequired = function() {
+	return exports.error(100, "Authentication required" )
 
 }
-
 exports.http_code_for_error = function (err) {
     switch (err.code) {
       case "no_such_album":

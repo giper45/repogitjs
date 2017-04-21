@@ -4,7 +4,9 @@ const helpers = require('./helpers') ,
 	homedir = require('homedir')
 	repoConfig = require(appRoot+"/config/repoconf.json"),
 	repogitData = require(appRoot+"/app/data/repogitData")
-	async = require('async')
+	async = require('async'), 
+	_ = require('underscore') 
+
 
 
 var api = {
@@ -16,28 +18,37 @@ var api = {
 	//Clone a repo
 	cloneRepo : function(req, res) {
 		console.log("in clone repo") 
-		
+
 		async.waterfall([
 			//Check params
 			function(cb)  {
 				if(!req.params || !req.params.reponame) 
 					cb(helpers.paramError)
+				//Check body
 				else if (!req.body || !req.body.giturl) 
 					cb(helpers.bodyNoCorrect(['giturl']))
+
+				//If authRequired is true check username and password body params
+				else if (req.body.authRequired && (!req.body.username || !req.body.password))
+					cb(helpers.bodyNoCorrect(['username', 'password']))
 				else 
 				{
 				var reponame = req.params.reponame
 				var giturl = req.body.giturl
 				//TODO Checks in parameters 
 
-
-				cb(null, {reponame:path.join(homedir(),repoConfig.rootDir, reponame), giturl:giturl})
+				//Extend params 
+				var params = _.extend({} , {reponame:path.join(homedir(),repoConfig.rootDir, reponame)}, req.body)
+				cb(null, params)
 				}
 			}, 
 			//Git clone
 			function(params, cb) {
 
-				repogitData.clone(params.giturl, params.reponame).then(
+				console.log(params)
+
+				var promises =  repogitData.clone(params.giturl, params)
+				promises.then(
 				function success(repository)	
 				{
 					console.log("success")
@@ -45,8 +56,17 @@ var api = {
 				},
 				function error(e)	
 				{
-					console.log("error")
-					cb(e)	
+					/* CANNOT GET THE AUTH ERROR CODE FOR THE MOMENT */
+//					//Check for code error 
+//					//Need auth error
+//					if(e.toString() === errMessages.noAuthInserted)
+//					{
+//						cb(helpers.authRequired())
+//
+//					}
+					//No special error, simply returns the error 
+					//else 
+						cb(e)	
 				})
 
 			}
@@ -74,7 +94,8 @@ var api = {
 
 	}, 
 	pullRepo : function(req, res) {
-
+		console.log("pull") 
+		helpers.response(res, null, 'ok')
 	}
 	
 
