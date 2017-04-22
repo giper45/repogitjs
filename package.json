@@ -36,6 +36,7 @@
     "method-override": "^2.3.8",
     "path-exists": "^3.0.0",
     "promise": "^7.1.1",
+    "q": "^1.5.0",
     "rimraf": "^2.6.1",
     "rm-rf": "^2.0.1",
     "simple-git": "^1.70.0",

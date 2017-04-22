@@ -5,7 +5,8 @@ const helpers = require('./helpers') ,
 	repoConfig = require(appRoot+"/config/repoconf.json"),
 	repogitData = require(appRoot+"/app/data/repogitData")
 	async = require('async'), 
-	_ = require('underscore') 
+	_ = require('underscore') ,
+	rimraf = require('rimraf')
 
 
 
@@ -78,9 +79,22 @@ var api = {
 		})	
 
 	} ,
+	deleteRepo : function(req, res) {
+		if(req.params && req.params.reponame) {
+			rimraf(path.join(homedir(), repoConfig.rootDir, req.params.reponame), function(err) {
+				if(err) 		
+					helpers.response(res,err)
+				else helpers.response(res,null)
+
+			})
+		}
+
+		else helpers.response(res,helpers.paramError('reponame'))
+	
+	},
 	//Returns 
 	getRepos : function(req, res) {
-
+		console.log("sono in get repos")
 		var rootDir = repoConfig.rootDir
 		var rootPath = path.join(homedir(), rootDir)  
 		repogitData.getRepoDirs(rootPath, function(err, rootDirs) { 
@@ -90,16 +104,56 @@ var api = {
 
 	},
 	pushRepo : function(req, res) {
+		console.log("sono in push")
+		if(!req.params || !req.params.reponame) 
+			helpers.response(res, helpers.paramError('reponame'))
+		else if(!req.body || !req.body.username || !req.body.mail || !req.body.commit)	
+			helpers.response(res, helpers.bodyNoCorrect(['username', 'mail', 'commit']))
+
+		else {
+			console.log("sono in push repo")
+			var thePath = path.join(homedir(), repoConfig.rootDir, req.params.reponame)
+			repogitData.pushRepo(thePath, req.body)
+			.then( 
+				success = (data)=>{ 
+					console.log("success")
+					helpers.response(res, null)
+				} , 
+
+				error = (err) => {
+					console.log("error")
+					helpers.response(res, err)
+
+				}	
+			 )
+
+			}
+
 
 
 	}, 
 	pullRepo : function(req, res) {
-		console.log("pull") 
-		helpers.response(res, null, 'ok')
+		console.log("in pull repos")
+		//Test validity param
+		if(!req.params || !req.params.reponame) 
+			helpers.response(res, helpers.paramError('reponame'))
+		else {
+			repogitData.pullRepo(path.join(homedir(), repoConfig.rootDir,req.params.reponame))
+			.then( 
+				success = (data)=>{ 
+					console.log("success")
+					helpers.response(res, null)
+				} , 
+
+				error = (err) => {
+					console.log("error")
+					helpers.response(res, err)
+
+				}	
+			 )
+
+		}
 	}
-	
-
-
 }
 
 

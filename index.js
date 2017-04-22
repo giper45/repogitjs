@@ -30,12 +30,17 @@ app.use(function (err, req, res, next) {
 // JSON API
 //Api labels 
 app.get("/repogit/v1/root", repogitHandler.getRootDir)
+//Pull a repo
 app.get("/repogit/v1/repos", repogitHandler.getRepos)
 
 
 //Clone a repo
 app.post("/repogit/v1/repos/:reponame", repogitHandler.cloneRepo)
-//app.get("/repogit/v1/repos", repogitHandler.)
+app.get("/repogit/v1/repos/:reponame", repogitHandler.pullRepo)
+//This launch an error
+app.put("/repogit/v1/repos/", repogitHandler.pushRepo)
+app.put("/repogit/v1/repos/:reponame", repogitHandler.pushRepo)
+app.delete("/repogit/v1/repos/:reponame", repogitHandler.deleteRepo)
 
 
 

@@ -18,6 +18,7 @@
 
 
 	<script src="controllers/repogit_ctrl.js"></script>
+	<script src="components/delete_confirm.js"></script>
 	<script src="assets/js/angular-ui-notification.min.js"></script> 
     <!-- angular services -->
     <!-- <script src="lib/services.js"></script> -->
@@ -27,8 +28,9 @@
 <script>
 	//ANGULAR COMPONENT REGISTRATION 
 	angular.module("myApp", ['ngAnimate', 'ngSanitize', 'ui.bootstrap','ui-notification' ] )
+	.component('modalComponent', deleteConfirm)
 	.controller("repogitCtrl", repogit_ctrl) 
-	 .config(function(NotificationProvider) {
+	 .config(function(NotificationProvider, $httpProvider) {
 		NotificationProvider.setOptions({
 		    delay: 4000,
 		    startTop: 20,
@@ -38,6 +40,10 @@
 		    positionX: 'center',
 		    positionY: 'bottom'
 		});
+
+			//Add x http methods to fully support methods
+			$httpProvider.defaults.headers.put = { 'X-HTTP-Method-Override': 'PUT'};
+			$httpProvider.defaults.headers.delete = { 'X-HTTP-Method-Override': 'DELETE'};
 	    });
 
 </script>
@@ -60,7 +66,9 @@
         <td class="text-center">{{r}}</td>
         <td>
 		<div class="text-center">
-		<button class="btn btn-default"> <span class="glyphicon glyphicon-arrow-down"> </span>  Pull </button>
+		<button class="btn btn-default" ng-click="pullRepo(r)"> <span class="glyphicon glyphicon-arrow-down"> </span>  Pull </button>
+		<button class="btn btn-default" ng-click="selectRepo(r)"> <span class="glyphicon glyphicon-pencil"> </span>  Update this</button>
+		<button class="btn btn-default" ng-click="openConfirmDelete(r)"> <span class="glyphicon glyphicon-remove"> </span>  Delete </button>
 
 		</div>
 	</td>
@@ -81,6 +89,46 @@
 
     </tbody>
   </table>
+
+
+<h3 class="text-center">Update repo <b> {{selectedRepo}}</b></h3>
+<hr>
+
+
+<form class="form-horizontal">
+  <div class="form-group">
+    <label class="control-label col-sm-2" for="name">Name:</label>
+    <div class="col-sm-10">
+    <input type="text" class="form-control" ng-model="username">
+    </div>
+  </div>
+<div class="form-group">
+
+    <label class="control-label col-sm-2" for="namerepo">Mail:</label>
+    <div class="col-sm-10">
+    <input type="text" class="form-control" ng-model="mail">
+    </div>
+ </div>
+
+<div class="form-group">
+    <label class="control-label col-sm-2" for="commit message:">Commit message:</label>
+    <div class="col-sm-10">
+    <input type="text" class="form-control" ng-model="commit">
+    </div>
+ </div>
+  
+
+  <div class="form-group"> 
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" ng-click="pushRepo(selectedRepo)" class="btn btn-default">Update</button>
+    </div>
+  </div>
+
+
+
+</form>
+
+
 
 <h3 class="text-center"> Add remote repo  </h3>
 <hr>
@@ -129,10 +177,17 @@
   </div>
 </form>
 
+
+
+
+
+
 </div>
 
-</body> 
 
+
+
+</div>
 
 </body>
 </html>
