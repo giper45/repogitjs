@@ -8,7 +8,7 @@ rimraf = require('rimraf')
 
 
 
-describe("repogitData test", function() {
+describe.skip("repogitData test", function() {
 
 	var self = this
 	before(function(){
