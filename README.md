@@ -44,8 +44,8 @@ A Node API is provided with the project. Look at the test/api_test.js for the ex
 * Clone a repo : ` POST repogit/v1/repos/:reponame  body : {giturl:"remoteGitUrl"} `  
 * Clone a repo that needs auth : `POST repogit/v1/repos/:reponame body : {giturl:"remoteGitUrl", username:"username", password:"password"}` 
 
-* Pull request : GET repogit/v1/repos/:reponame  
-* Push request : PUT repogit/v1/repos/:reponame  body : {commit:"messageCommit", username:"username", mail:"Mail username" } 
+* Pull request : `GET repogit/v1/repos/:reponame`  
+* Push request : `PUT repogit/v1/repos/:reponame  body : {commit:"messageCommit", username:"username", mail:"Mail username" }` 
 
 
  
