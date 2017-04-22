@@ -31,7 +31,9 @@ node_modules
 jspm_packages
 #Private test variables
 test/private.json
-
+test/git_to_clone/*
+test/git_test/*
+data/*
 
 
 # Optional npm cache directory
