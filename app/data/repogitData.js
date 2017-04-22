@@ -111,13 +111,19 @@ module.exports = {
 	},
 	pullRepo(reponame, callback) {
 
+
 		var deferred = Q.defer()
-		pathExists(reponame, function(ex) {
+		pathExists(reponame).then(function(ex) {
 		if(ex)
+		{
 			simpleGit(reponame).pull((err, data) => {
 				promises.manage(deferred, err, data) 
 			}) ;
-		else promises.manage(deferred, "no repo dir") 
+		}
+		else 
+		{
+			promises.manage(deferred, "no repo dir") 
+		}
 		})
 		return deferred.promise	
 	
