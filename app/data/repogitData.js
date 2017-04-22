@@ -1,6 +1,7 @@
 const Walker = require('walker'), 
 	pathExists = require('path-exists'), 
 	path = require('path'),
+	mkdirp = require('mkdirp'),
 	fs= require('fs'),
 	Q = require('q'),
 	process = require('process'),
@@ -54,28 +55,38 @@ module.exports = {
 	getRepoDirs : function(nameRepo,callback) {
 		var repoRet = [] 
 		//Check error
-		if(!pathExists.sync(nameRepo) )
-		{
+
+			try {	
+			//Try to create if doesn't exists
+			if(!pathExists.sync(nameRepo) )
+					mkdirp.sync(nameRepo) 	
+
+			//Explore tree 
+			Walker(nameRepo) 
+				.filterDir(function(dir, stat) {
+					return haveToFilter(nameRepo,dir)
+				})
+				.on('dir', function(dir, stat) {
+					var gitFile = path.join(dir, '.git')
+					if(pathExists.sync(gitFile))
+								repoRet.push(path.basename(dir))	
+					})	
+
+
+				.on('end', function() {
+					//Sort by name 
+					var repos = _.sortBy(repoRet, function(e) {return e})
+					callback(null, repos)
+				})
+				}
+
+			//Cannot create, launch erro
+			catch(err) 
+			{
+			console.log("Some error") 
+			console.log(err) 
 			callback(backhelp.file_not_exists(nameRepo))
-		}
-		else {
-	 	Walker(nameRepo) 
-			.filterDir(function(dir, stat) {
-				return haveToFilter(nameRepo,dir)
-			})
-			.on('dir', function(dir, stat) {
-				var gitFile = path.join(dir, '.git')
-				if(pathExists.sync(gitFile))
-							repoRet.push(path.basename(dir))	
-				})	
-
-
-			.on('end', function() {
-				//Sort by name 
-				var repos = _.sortBy(repoRet, function(e) {return e})
-				callback(null, repos)
-			})
-		}
+			}
 
 	},
 

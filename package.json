@@ -34,6 +34,7 @@
     "help-nodejs": "^0.1.5",
     "homedir": "^0.6.0",
     "method-override": "^2.3.8",
+    "mkdirp": "^0.5.1",
     "path-exists": "^3.0.0",
     "promise": "^7.1.1",
     "q": "^1.5.0",

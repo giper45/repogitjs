@@ -46,8 +46,6 @@ var api = {
 			//Git clone
 			function(params, cb) {
 
-				console.log(params)
-
 				var promises =  repogitData.clone(params.giturl, params)
 				promises.then(
 				function success(repository)	
@@ -80,6 +78,7 @@ var api = {
 
 	} ,
 	deleteRepo : function(req, res) {
+		console.log("inDeleteRepo")
 		if(req.params && req.params.reponame) {
 			rimraf(path.join(homedir(), repoConfig.rootDir, req.params.reponame), function(err) {
 				if(err) 		
@@ -99,6 +98,8 @@ var api = {
 		var rootPath = path.join(homedir(), rootDir)  
 		repogitData.getRepoDirs(rootPath, function(err, rootDirs) { 
 
+			console.log("ERR : ") 
+			console.log(err) 
 			helpers.response(res, err, rootDirs)
 		})
 
