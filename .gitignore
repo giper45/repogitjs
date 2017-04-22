@@ -33,7 +33,7 @@ jspm_packages
 test/private.json
 test/git_to_clone/*
 test/git_test/*
-data/*
+#test/data/*
 
 
 # Optional npm cache directory
