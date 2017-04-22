@@ -35,6 +35,7 @@ app.get("/repogit/v1/repos", repogitHandler.getRepos)
 
 
 //Clone a repo
+app.post("/repogit/v1/repos/", repogitHandler.cloneRepo)
 app.post("/repogit/v1/repos/:reponame", repogitHandler.cloneRepo)
 app.get("/repogit/v1/repos/:reponame", repogitHandler.pullRepo)
 //This launch an error

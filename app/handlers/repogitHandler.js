@@ -24,7 +24,7 @@ var api = {
 			//Check params
 			function(cb)  {
 				if(!req.params || !req.params.reponame) 
-					cb(helpers.paramError)
+					cb(helpers.paramError('reponame'))
 				//Check body
 				else if (!req.body || !req.body.giturl) 
 					cb(helpers.bodyNoCorrect(['giturl']))
