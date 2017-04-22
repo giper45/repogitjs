@@ -80,7 +80,7 @@ exports.noNameLab = function() {
 }
 exports.noRepoDir = function() {
 	return exports.error("no correct dir", 
-				"This repo or this lab doesn't exists") 
+				"This repo doesn't exists") 
 }
 exports.bodyNoCorrect = function(arr) { 
 	return exports.error("no correct body", 

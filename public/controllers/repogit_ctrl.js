@@ -48,7 +48,7 @@ var repogit_ctrl = function($scope, $http, $log, Notification, $uibModal) {
 			.then(
 				function(data) {
 					$scope.repos.push($scope.namerepo)
-					success()
+					success("ok")
 				}
 				, logError)
 

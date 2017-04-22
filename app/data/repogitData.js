@@ -112,17 +112,24 @@ module.exports = {
 	pullRepo(reponame, callback) {
 
 		var deferred = Q.defer()
-		simpleGit(reponame).pull((err, data) => {
-			promises.manage(deferred, err, data) 
-		}) ;
-
+		pathExists(reponame, function(ex) {
+		if(ex)
+			simpleGit(reponame).pull((err, data) => {
+				promises.manage(deferred, err, data) 
+			}) ;
+		else promises.manage(deferred, "no repo dir") 
+		})
 		return deferred.promise	
+	
 
 	},
 	pushRepo(reponame, params) {
-		console.log("params:")
-		console.log(params)
+
 		var deferred = Q.defer()
+		pathExists(reponame).then(ex => {
+		if(ex)
+		{
+		console.log("exists")
 		var theRepo = simpleGit(reponame)
 		theRepo
 			 .add(path.join(reponame,'*'))
@@ -131,9 +138,15 @@ module.exports = {
 			 .commit(params.commit)
 			.push((err, data) => {
 			promises.manage(deferred, err, data) 
-		})
+			})
+		}
+		else	{ 
+			console.log("Doesn't exists")
+			promises.manage(deferred, "no repo dir") 
+			}
+		}) //End pathExists
 
-		return deferred.promise	
+			return deferred.promise	
 	}
 	
 
