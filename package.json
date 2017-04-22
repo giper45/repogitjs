@@ -1,6 +1,6 @@
 {
   "name": "repogitjs",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A javascript api and bootstrap interface to manage github repositories with basic operations (commit, pull, push, ...) inside a root directories defined by user",
   "main": "index.js",
   "scripts": {
